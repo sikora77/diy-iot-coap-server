@@ -13,6 +13,7 @@ use coap_server::app::ObservableResource;
 use coap_server::app::{AppBuilder, CoapError, Observers, ObserversHolder, Request, Response};
 use coap_server::FatalServerError;
 use coap_server::{app, CoapServer, UdpTransport};
+use dotenv::dotenv;
 use env_logger;
 #[macro_use]
 extern crate serde_derive;
@@ -20,7 +21,14 @@ extern crate serde_derive;
 #[tokio::main]
 async fn main() -> Result<(), FatalServerError> {
 	env_logger::init();
-	let server = CoapServer::bind(UdpTransport::new("sikora-laptop.local:5683")).await?;
+	dotenv().ok();
+	let server_addr = dotenv::var("ADDR").expect("set ADDR");
+	let server_port = dotenv::var("PORT").expect("set PORT");
+	let server = CoapServer::bind(UdpTransport::new(format!(
+		"{}:{}",
+		server_addr, server_port
+	)))
+	.await?;
 	server.serve(build_app()).await
 }
 
