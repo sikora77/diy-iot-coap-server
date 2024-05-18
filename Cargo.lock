@@ -207,6 +207,7 @@ dependencies = [
 [[package]]
 name = "coap-client"
 version = "0.3.1"
+source = "git+https://github.com/sikora77/rust-coap-client.git?rev=b3ac627312f512fc6251f905590828ed3b320811#b3ac627312f512fc6251f905590828ed3b320811"
 dependencies = [
  "anyhow",
  "async-trait",
