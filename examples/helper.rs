@@ -1,7 +1,8 @@
+use coap_server_tokio::transport::udp::UdpTransport;
 use std::net::SocketAddr;
 
 use coap_server::app::{CoapError, Request, Response};
-use coap_server::{app, CoapServer, FatalServerError, UdpTransport};
+use coap_server::{app, CoapServer, FatalServerError};
 
 #[tokio::main]
 async fn main() -> Result<(), FatalServerError> {

@@ -6,7 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-coap-server = "0.1.1"
+coap-server = { git = "https://github.com/sikora77/coap-server-rs.git" }
+coap-server-tokio = { git = "https://github.com/sikora77/coap-server-rs" }
 tokio = "1.32.0"
 coap-lite = "0.9.0"
 async-trait = "0.1.61"

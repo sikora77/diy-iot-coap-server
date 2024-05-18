@@ -6,13 +6,15 @@ use std::time::Duration;
 use async_trait::async_trait;
 use coap_lite::link_format::LINK_ATTR_RESOURCE_TYPE;
 use coap_lite::{ContentFormat, MessageClass, ResponseType};
+use serde_json::json;
 use tokio::sync::{oneshot, Mutex};
 use tokio::time;
 
 use coap_server::app::ObservableResource;
 use coap_server::app::{AppBuilder, CoapError, Observers, ObserversHolder, Request, Response};
 use coap_server::FatalServerError;
-use coap_server::{app, CoapServer, UdpTransport};
+use coap_server::{app, CoapServer};
+use coap_server_tokio::transport::udp::UdpTransport;
 use dotenv::dotenv;
 use env_logger;
 #[macro_use]
@@ -143,16 +145,18 @@ async fn handle_is_online(
 	let relative_path = format!("lights/{}", &full_path);
 	println!("{}", relative_path);
 	// Wont work with stock library
-	let observer_count = 2; //state.observers.get_count(relative_path.as_str()).await;
-						// if observer_count > 0 {
-						// 	println!("hii");
-						// }
+	let observer_count = state.observers.get_count(&relative_path).await;
+	println!("{}", observer_count);
+	//state.observers.get_count(relative_path.as_str()).await;
+	// if observer_count > 0 {
+	// 	println!("hii");
+	// }
 	match state.data.lock().await.get(full_path.as_str()) {
 		Some(x) => {
 			response
 				.message
 				.set_content_format(ContentFormat::TextPlain);
-			response.message.payload = serde_json::to_string(&observer_count)
+			response.message.payload = serde_json::to_string(&json!({"isOnline":observer_count>0}))
 				.unwrap()
 				.as_bytes()
 				.to_vec();
