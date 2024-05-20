@@ -14,14 +14,13 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - run: rustup target add x86_64-unknown-linux-musl
+            - uses: actions/checkout@v4
+            - name: Build
+              run: rustup target add x86_64-unknown-linux-musl
 
             - name: Install musl build tools
               run: sudo apt update && sudo apt install musl-tools -y
-            - run: ls
-            - run: cargo build --release --target x86_64-unknown-linux-musl
-            - uses: actions/checkout@v4
-            - name: Build
-              run: cargo build --release --verbose
+            - run: cargo check
+            - run: cargo build --release --target x86_64-unknown-linux-musl --verbose
             - name: Run tests
               run: cargo test --verbose
