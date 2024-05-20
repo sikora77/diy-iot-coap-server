@@ -12,6 +12,7 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            - uses: actions/checkout@v4
             - name: 'Build'
               uses: ./.github/workflows/check_build.yml
             - name: Upload
