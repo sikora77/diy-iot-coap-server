@@ -18,7 +18,7 @@ jobs:
 
             - name: Install musl build tools
               run: sudo apt update && sudo apt install musl-tools -y
-
+            - run: ls
             - run: cargo build --release --target x86_64-unknown-linux-musl
             - uses: actions/checkout@v4
             - name: Build
