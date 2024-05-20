@@ -1,0 +1,21 @@
+name: Publish binary
+
+on:
+    release:
+        types: [published]
+
+env:
+    CARGO_TERM_COLOR: always
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: 'Build'
+              uses: ./.github/workflows/check_build.yml
+            - name: Upload
+              uses: djn24/add-asset-to-release@v2
+              with:
+                  token: ${{secrets.GITHUB_TOKEN}}
+                  path: '/home/runner/work/diy-iot-coap-server/diy-iot-coap-server/target/x86_64-unknown-linux-musl/release/diy_iot'
