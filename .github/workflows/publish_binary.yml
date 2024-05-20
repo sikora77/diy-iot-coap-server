@@ -8,19 +8,20 @@ env:
     CARGO_TERM_COLOR: always
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - name: 'Build'
-              uses: ./.github/workflows/check_build.yml
     publish:
         runs-on: ubuntu-latest
 
         steps:
             - uses: actions/checkout@v4
-            - name: 'Build'
-              uses: ./.github/workflows/check_build.yml
+
+            - name: Build
+              run: rustup target add x86_64-unknown-linux-musl
+            - name: Install musl build tools
+              run: sudo apt update && sudo apt install musl-tools -y
+            - run: cargo build --release --target x86_64-unknown-linux-musl --verbose
+            - name: Run tests
+              run: cargo test --verbose
+
             - name: Upload
               uses: djn24/add-asset-to-release@v2
               with:
