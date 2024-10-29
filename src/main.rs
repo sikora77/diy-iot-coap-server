@@ -1,6 +1,6 @@
 use std::net::SocketAddr;
 
-use crate::lights::LightsState;
+use crate::lights::{handle_device_remove_put, LightsState};
 use coap_lite::link_format::LINK_ATTR_RESOURCE_TYPE;
 use coap_server::app::AppBuilder;
 use coap_server::FatalServerError;
@@ -34,6 +34,7 @@ fn build_app() -> AppBuilder<SocketAddr> {
 	let state_for_put = light_state.clone();
 	let state_for_create_put = light_state.clone();
 	let state_for_is_online = light_state.clone();
+	let state_for_remove = light_state.clone();
 	app::new()
 		.resource(
 			app::resource("/lights")
@@ -49,5 +50,8 @@ fn build_app() -> AppBuilder<SocketAddr> {
 		.resource(
 			app::resource("/lights/is_online")
 				.get(move |req| handle_is_online(req, state_for_is_online.clone())),
+		).resource(
+			app::resource("/lights/remove")
+				.get(move |req| handle_device_remove_put(req, state_for_remove.clone())),
 		)
 }
