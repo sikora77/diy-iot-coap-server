@@ -209,7 +209,7 @@ pub async fn handle_device_remove_put(
 			is_on: true,
 			color: 255 * 255 * 255,
 			brightness: 255,
-			removed: false,
+			removed: true,
 		},
 	);
 	let len = data.len() + 1;

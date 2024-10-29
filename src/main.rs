@@ -52,6 +52,6 @@ fn build_app() -> AppBuilder<SocketAddr> {
 				.get(move |req| handle_is_online(req, state_for_is_online.clone())),
 		).resource(
 			app::resource("/lights/remove")
-				.get(move |req| handle_device_remove_put(req, state_for_remove.clone())),
+				.put(move |req| handle_device_remove_put(req, state_for_remove.clone())),
 		)
 }
