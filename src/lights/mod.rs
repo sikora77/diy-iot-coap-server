@@ -55,7 +55,7 @@ pub async fn handle_get_lights(
 	let light_id = &request.unmatched_path[0];
 
 	// let mut full_path = "".to_string();
-	println!("{}", light_id);
+	// println!("{}", light_id);
 	// for path in request.unmatched_path.into_iter() {
 	// 	full_path += &path;
 	// }
@@ -197,14 +197,12 @@ pub async fn handle_device_remove_put(
 ) -> Result<Response, CoapError> {
 	let mut response = request.new_response();
 	let mut full_path = "".to_string();
-	let payload = String::from_utf8(request.original.message.payload).unwrap();
-	println!("{}", payload.as_ref() as &str);
 	for path in request.unmatched_path.clone().into_iter() {
 		full_path += &path;
 	}
 	let mut data = state.data.lock().await;
 	data.insert(
-		payload.clone(),
+		full_path.clone(),
 		LightState {
 			is_on: true,
 			color: 255 * 255 * 255,
@@ -213,7 +211,7 @@ pub async fn handle_device_remove_put(
 		},
 	);
 	let len = data.len() + 1;
-	println!("Removing device: {}", payload);
+	println!("Removing device: {}", full_path);
 	response
 		.message
 		.set_content_format(ContentFormat::TextPlain);
