@@ -7,7 +7,6 @@ use coap_server::FatalServerError;
 use coap_server::{app, CoapServer};
 use coap_server_tokio::transport::udp::UdpTransport;
 use dotenv::dotenv;
-use env_logger;
 use lights::{handle_device_create_put, handle_get_lights, handle_is_online, handle_put_lights};
 #[macro_use]
 extern crate serde_derive;
